@@ -725,7 +725,7 @@ class ChatTable:
                 query = query.limit(limit)
 
             all_chats = query.all()
-            return self._decrypt_chat_models([ChatModel.model_validate(chat) for chat in all_chats])
+            return self._normalize_chat_models([ChatModel.model_validate(chat) for chat in all_chats])
 
     def get_chat_title_id_list_by_user_id(
         self,
@@ -788,7 +788,7 @@ class ChatTable:
                 .order_by(Chat.updated_at.desc())
                 .all()
             )
-            return self._decrypt_chat_models([ChatModel.model_validate(chat) for chat in all_chats])
+            return self._normalize_chat_models([ChatModel.model_validate(chat) for chat in all_chats])
 
     def get_chat_by_id_and_user_id(
             self, id: str, user_id: str, db: Optional[Session] = None
@@ -857,7 +857,7 @@ class ChatTable:
                 # .limit(limit).offset(skip)
                 .order_by(Chat.updated_at.desc())
             )
-            return self._normalize_chat_models([ChatModel.model_validate(chat) for chat in all_chats])
+            return [ChatModel.model_validate(chat) for chat in all_chats]
 
     def get_chats_by_user_id(
         self,

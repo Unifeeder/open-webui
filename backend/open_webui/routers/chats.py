@@ -801,7 +801,7 @@ async def get_all_user_chats_in_db(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail=ERROR_MESSAGES.ACCESS_PROHIBITED,
         )
-    return _normalize_chat_list_for_response(Chats.get_chats(db=db))
+    return [ChatResponse(**chat.model_dump()) for chat in Chats.get_chats(db=db)]
 
 
 ############################
